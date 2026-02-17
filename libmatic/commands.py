@@ -1,6 +1,9 @@
 import os
 import shutil
 
+def build():
+    os.system("py -m build")
+
 def convert():
     libname = input("Name of Library: ")
 
@@ -38,6 +41,15 @@ def convert():
         file.write(f"Homepage = \"{input("Homepage: ")}\"\n")
         file.write(f"Issues = \"{input("issues page: ")}\"\n")
 
+        try:
+            with open(f"{libname}/scripts.txt", "r") as scripts:
+                file.write("\n[project.scripts]\n")
+                for i in scripts.readlines():
+                    i = i.split()
+                    file.write(f"{i[0]} = \"{libname}.{i[1]}:{i[2]}\"\n")
+            os.remove(f"src/{libname}/scripts.txt")
+        except:
+            pass
     with open("LICENSE", "x") as file:
         file.write("""GNU GENERAL PUBLIC LICENSE
     Version 3, 29 June 2007
